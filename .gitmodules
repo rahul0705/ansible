@@ -1,0 +1,6 @@
+[submodule "rutorrent"]
+	path = roles/rutorrent
+	url = https://github.com/rahul0705/ansible-rutorrent.git
+[submodule "rtorrent"]
+	path = roles/rtorrent
+	url = https://github.com/rahul0705/ansible-rtorrent.git
