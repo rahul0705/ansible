@@ -1,0 +1,8 @@
+---
+
+- name: Install seedbox software
+  hosts: seedbox
+  remote_user: ansible
+  become: yes
+  roles:
+    - { role: rahul0705.autodl-irssi, autodl_irssi_configure_rutorrent_plugin: True }

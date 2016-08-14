@@ -1,0 +1,6 @@
+---
+
+- include: common.yml
+  when:
+    - common_setup
+- include: seedbox.yml

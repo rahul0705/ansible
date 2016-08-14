@@ -1,0 +1,74 @@
+---
+
+- name: change root password
+  user:
+    name: root
+    password: "{{ common_root_password }}"
+
+- name: add deploy user
+  user:
+    name: "{{ common_deploy_username }}"
+    password: "{{ common_deploy_password }}"
+    shell: /bin/bash
+    system: yes
+
+- name: add sudoers file
+  template:
+    src: ansible.j2
+    dest: /etc/sudoers.d/ansible
+    owner: root
+    group: root
+    mode: 0644
+
+- name: add authorized keys for deploy user
+  authorized_key:
+    user: "{{ common_deploy_username }}"
+    key: "{{ common_deploy_key }}"
+    state: present
+
+- name: install security packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ufw
+    - unattended-upgrades
+    - fail2ban
+
+- name: configure unattended-upgrades
+  template:
+    src: 10periodic.j2
+    dest: /etc/apt/apt.conf.d/10periodic
+    owner: root
+    group: root
+    mode: 0644
+
+- name: configure firewall for ssh
+  ufw:
+    policy: deny
+    name: OpenSSH
+    rule: allow
+    state: enabled
+
+- name: configure ssh
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart ssh
+
+- name: create user
+  user:
+    name: "{{ common_user_username }}"
+    password: "{{ common_user_password }}"
+    groups: sudo
+    append: yes
+
+- name: Add authorized keys for user
+  authorized_key:
+    user: "{{ common_user_username }}"
+    key: "{{ common_user_key }}"
+    state: present

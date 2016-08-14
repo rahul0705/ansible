@@ -1,0 +1,9 @@
+---
+
+- name: Run initial setup on servers
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+    - { role: rahul0705.oh-my-zsh, oh_my_zsh_user: "{{ common_user_username }}" }
+    - { role: rahul0705.irssi, irssi_user: "{{ common_user_username }}", irssi_group: "{{ common_user_username }}" }
