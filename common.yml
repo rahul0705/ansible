@@ -3,6 +3,7 @@
 - name: Run initial setup on servers
   hosts: all
   remote_user: root
+  gather_facts: False
   roles:
     - common
     - { role: rahul0705.oh-my-zsh, oh_my_zsh_user: "{{ common_user_username }}" }
