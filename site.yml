@@ -1,3 +1,5 @@
 ---
 
-- include: seedbox.yml
+- import_playbook: common.yml
+  when: initial_setup
+- import_playbook: seedbox.yml

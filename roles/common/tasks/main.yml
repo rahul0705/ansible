@@ -1,18 +1,18 @@
 ---
 
-- name: change root password
+- name: Change root password
   user:
     name: root
     password: "{{ common_root_password }}"
 
-- name: add deploy user
+- name: Add deploy user
   user:
     name: "{{ common_deploy_username }}"
     password: "{{ common_deploy_password }}"
     shell: /bin/bash
     system: yes
 
-- name: add sudoers file
+- name: Add sudoers file
   template:
     src: ansible.j2
     dest: /etc/sudoers.d/ansible
@@ -20,13 +20,13 @@
     group: root
     mode: 0644
 
-- name: add authorized keys for deploy user
+- name: Add authorized keys for deploy user
   authorized_key:
     user: "{{ common_deploy_username }}"
     key: "{{ common_deploy_key }}"
     state: present
 
-- name: install security packages
+- name: Install security packages
   package:
     name: "{{ item }}"
     state: present
@@ -35,7 +35,7 @@
     - unattended-upgrades
     - fail2ban
 
-- name: configure unattended-upgrades
+- name: Configure unattended-upgrades
   template:
     src: 10periodic.j2
     dest: /etc/apt/apt.conf.d/10periodic
@@ -43,14 +43,14 @@
     group: root
     mode: 0644
 
-- name: configure firewall for ssh
+- name: Configure firewall for ssh
   ufw:
     policy: deny
     name: OpenSSH
     rule: allow
     state: enabled
 
-- name: configure ssh
+- name: Configure ssh
   template:
     src: sshd_config.j2
     dest: /etc/ssh/sshd_config
@@ -60,7 +60,7 @@
   notify:
     - restart ssh
 
-- name: create user
+- name: Create user
   user:
     name: "{{ common_user_username }}"
     password: "{{ common_user_password }}"
