@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  boxes = ["ubuntu/xenial64", "ubuntu/trusty64"]
+  boxes = ["ubuntu/xenial64", "ubuntu/trusty64", "centos/7", "archlinux/archlinux"]
   boxes.each_index do |machine_id|
     config.vm.define "machine#{machine_id}" do |machine|
       machine.vm.box = boxes[machine_id]
@@ -7,6 +7,8 @@ Vagrant.configure("2") do |config|
       machine.vm.network "private_network", ip: "192.168.77.#{20+machine_id}"
       if machine.vm.box.include? "ubuntu"
         machine.vm.provision "shell", inline: "apt-get update; apt-get -y install python"
+      elsif machine.vm.box.include? "archlinux"
+        machine.vm.provision "shell", inline: "pacman --noconfirm -Syu python"
       end
 
       # Only execute once the Ansible provisioner,
