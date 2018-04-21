@@ -19,6 +19,7 @@
     owner: root
     group: root
     mode: 0440
+    validate: visudo -cf %s
 
 - name: Add authorized keys for deploy user
   authorized_key:
