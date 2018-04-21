@@ -9,7 +9,7 @@
   user:
     name: "{{ common_deploy_username }}"
     password: "{{ common_deploy_password }}"
-    shell: /bin/bash
+    shell: /sbin/nologin
     system: yes
 
 - name: Add sudoers file
@@ -58,7 +58,7 @@
     group: root
     mode: 0644
   notify:
-    - restart ssh
+    - Restart ssh
 
 - name: Create user
   user:
