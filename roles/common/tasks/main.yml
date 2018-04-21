@@ -18,7 +18,7 @@
     dest: /etc/sudoers.d/ansible
     owner: root
     group: root
-    mode: 0644
+    mode: 0440
 
 - name: Add authorized keys for deploy user
   authorized_key:
